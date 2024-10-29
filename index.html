@@ -1,16 +1,322 @@
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Push уведомления</title>
-</head>
-<body>
-	<input type="button" onclick="notifSet()" value="Notification">
-	<input type="button" onclick="notifyMe()" value="Notification">
-	
-<script>
-	function notifyMe () {
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <style>
+    body {
+    background-color: #444442;
+    padding-top: 85px;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif, 'arial';
+    font-weight: 600;
+    font-size: 72px;
+    color: white;
+    text-align: center;
+}
+
+h4 {
+    font-family: 'Roboto', sans-serif, 'arial';
+    font-weight: 400;
+    font-size: 20px;
+    color: #9b9b9b;
+    line-height: 1.5;
+}
+
+/* ///// inputs /////*/
+
+input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
+    font-size: 0.75em;
+    color: #999;
+    top: -5px;
+    -webkit-transition: all 0.225s ease;
+    transition: all 0.225s ease;
+}
+
+.styled-input {
+    float: left;
+    width: 293px;
+    margin: 1rem 0;
+    position: relative;
+    border-radius: 4px;
+}
+
+@media only screen and (max-width: 768px){
+    .styled-input {
+        width:100%;
+    }
+}
+
+.styled-input label {
+    color: #999;
+    padding: 1.3rem 30px 1rem 30px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    pointer-events: none;
+}
+
+.styled-input.wide { 
+    width: 650px;
+    max-width: 100%;
+}
+
+input,
+textarea {
+    padding: 30px;
+    border: 0;
+    width: 100%;
+    font-size: 1rem;
+    background-color: #2d2d2d;
+    color: white;
+    border-radius: 4px;
+}
+
+input:focus,
+textarea:focus { outline: 0; }
+
+input:focus ~ span,
+textarea:focus ~ span {
+    width: 100%;
+    -webkit-transition: all 0.075s ease;
+    transition: all 0.075s ease;
+}
+
+textarea {
+    width: 100%;
+    min-height: 15em;
+}
+
+.input-container {
+    width: 650px;
+    max-width: 100%;
+    margin: 20px auto 25px auto;
+}
+
+.submit-btn {
+    float: right;
+    padding: 7px 35px;
+    border-radius: 12px;
+    display: inline-block;
+    background-color: #4b8cfb;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.06),
+              0 2px 10px 0 rgba(0,0,0,0.07);
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(1px);
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.10),
+              0 1px 1px 0 rgba(0,0,0,0.09);
+}
+
+@media (max-width: 768px) {
+    .submit-btn {
+        width:100%;
+        float: none;
+        text-align:center;
+    }
+}
+
+input[type=checkbox] + label {
+  color: #ccc;
+  font-style: italic;
+} 
+
+input[type=checkbox]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+    </style>
+    <body>
+    <div class="container">
+	<div class="row" style="justify-content: center;">
+			<h1>Контракт</h1>
+            <div id="ton-connect" style="position: fixed; top: 3%; right: 3%;">
+
+	</div>
+	<div class="row">
+			<h4 style="text-align:center">We'd love to hear from you!</h4>
+	</div>
+	<div class="row input-container">
+			<div class="col-xs-12">
+				<div class="styled-input wide">
+					<input type="text" required id="wallet" />
+					<label>Кошелек</label> 
+
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="styled-input">
+					<input type="number" required id="LST" placeholder="$LST" />
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="styled-input" style="float:right;">
+					<input type="number" required id="TON" placeholder="Подключение.." />
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="styled-input wide">
+					<textarea placeholder="Дополнительные комментарии..." cols="14" style="resize: none; overflow: hidden;" id="COMMENT"></textarea>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="btn-lrg submit-btn" onclick="send()">Отправить</div>
+                <input type="button" onclick="notifSet()" value="Notification">
+			</div>
+	</div>
+</div>
+
+    <script>
+    window.setInterval(tonPrice, 1000);
+    window.onload = function(){
+          setTimeout(load, 10)
+        }
+
+    let telegram = {
+    token: "7793998298:AAFkeTSOtINXDRELuGV1ZWlsif-F3WVowQE", // Your bot's token that got from @BotFather
+    chat_id: "-1002447318654" // The user's(that you want to send a message) telegram chat id
+    }
+    const truncateToTwo = num => Math.floor(num * 100) / 100;
+
+/**
+ * By calling this function you can send message to a specific user
+ * @param {String} the text to send
+ *
+*/
+function sendMessage(text)
+{
+    const url = `https://api.telegram.org/bot${telegram.token}/sendMessage?chat_id=${telegram.chat_id}&text=${text}`; // The url to request
+    const xht = new XMLHttpRequest();
+    xht.open("GET", url);
+    xht.send();
+}
+
+async function load(){
+    const currentWallet = tonConnectUI.wallet.account.address;
+    document.getElementById("wallet").value = currentWallet;   
+}
+
+async function tonPrice(){
+    const resp = await fetch('https://tonapi.io/v2/rates?tokens=ton&currencies=ton%2Cusd%2Crub');
+    const data = await resp.json();
+
+    let tonprice = document.getElementById("TON");
+    tonprice.placeholder = "TON ≈ " + truncateToTwo(data.rates.TON.prices.RUB);
+}
+
+async function numberFormating(){
+    var str = "1234567890";
+    var tt = "";
+    var ton = document.getElementById("TON").value;
+
+    // lst.value = lst.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    tt = ton.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    document.getElementById("TON").value = tt;
+    // alert(tt);
+}
+
+// Now you can send any text(even a form data) by calling sendMessage function.
+// For example if you want to send the 'hello', you can call that function like this:
+async function send(){
+    const wallet = tonConnectUI.wallet.account.address;
+    const LST = document.getElementById("LST").value;
+    const TON = document.getElementById("TON").value;
+    const COMMENT = document.getElementById("COMMENT").value;
+    const link = `https://maxutkoe.github.io/Profile/PhpTest/?wallet=${wallet}&price=${TON}&tokens=${LST}&comment=${COMMENT}`; 
+    // alert(link);
+
+    let tg = window.Telegram.WebApp;
+    const name = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+    const username = tg.initDataUnsafe.user.username;
+
+    sendMessage(`${name} \n${username}\n\n${LST} - ${TON}\n\n${link}`);
+
+}
+    </script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+        <script src="https://unpkg.com/@tonconnect/sdk@0.0.34/dist/tonconnect-sdk.min.js"></script>
+    <script>
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://raw.githubusercontent.com/Maxutkoe/TgMayson/main/ton-manifest/tonconnect-manifest.json',
+        buttonRootId: 'ton-connect'
+    });
+
+    tonConnectUI.uiOptions = {
+      twaReturnUrl: 'https://t.me/lMaysonlBot'
+    };
+    async function connectToWallet() {
+        const connectedWallet = await tonConnectUI.connectWallet();
+        // Do something with connectedWallet if needed
+        console.log(connectedWallet);
+    }
+    async function trans(){
+                const transaction = {
+                    validUntil: Math.round(Date.now() / 1000) + 10,
+                    messages: [
+                        {
+                            address: "0:0000000000000000000000000000000000000000000000000000000000000000",
+                            amount: "1000000"
+                        }
+                    ]
+                };
+
+                try{
+                    await tonConnectUI.sendTransaction(transaction);
+                    alert("Вы успешно отправили 0.01 TON!")
+                }
+                catch(e){
+                    console.error(e);
+                }
+    }
+
+    // Call the function
+    connectToWallet().catch(error => {
+        console.error("Error connecting to wallet:", error);
+    });
+    async function pp(){
+      // const currentWallet = tonConnectUI.wallet.account.address;
+      text = document.getElementById("impor");
+      const wallet = "0:0000000000000000000000000000000000000000000000000000000000000000";
+      const price = 10000;
+      const tokens = Math.random(0, 2000);
+      const link = `https://maxutkoe.github.io/Profile/PhpTest/?wallet=${wallet}&price=${price}&tokens=${tokens}`; 
+      // alert(link);
+      document.querySelector('#copyimage').addEventListener('click', () => {
+      navigator.clipboard.writeText(link)
+        .then(() => {
+          console.log('Скопировано')
+        })
+        .catch(error => {
+          console.error(`Текст не скопирован ...`)
+        })
+      })
+    }
+
+    async function prize(){
+        let tg = window.Telegram.WebApp;
+        let name = document.getElementById("profile-name");
+        let username = document.getElementById("profile-username");
+
+        name.value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+        username.value = tg.initDataUnsafe.user.username;
+        console.log(tg.initDataUnsafe.user.photo_url);
+        tg.expand();
+    }
+
+    function notifyMe () {
 		var notification = new Notification ("Все еще работаешь?", {
 			tag : "ache-mail",
 			body : "Пора сделать паузу и отдохнуть",
@@ -33,6 +339,7 @@
 			});
 		}
 	}
+      
 </script>
-</body>
+    </body>
 </html>
