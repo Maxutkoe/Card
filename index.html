@@ -179,7 +179,10 @@ input[type=checkbox]:checked + label {
 	</div>
 </div>
 
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
+    let tg = window.Telegram.WebApp;
+
     window.setInterval(tonPrice, 1000);
     window.onload = function(){
           setTimeout(load, 10)
@@ -237,8 +240,6 @@ async function send(){
     const COMMENT = document.getElementById("COMMENT").value;
     const link = `https://maxutkoe.github.io/Profile/PhpTest/?wallet=${wallet}&price=${TON}&tokens=${LST}&comment=${COMMENT}`; 
     // alert(link);
-
-    let tg = window.Telegram.WebApp;
     const name = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
     const username = tg.initDataUnsafe.user.username;
 
