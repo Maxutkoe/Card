@@ -4,347 +4,595 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+        <script type="text/javascript" src="https://rawgit.com/victornpb/f639f37373be0f6e82e1/raw/5d8f7ee8b32ae04de087d2377d8086e3389ee411/AES.js"></script>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     </head>
     <style>
-    body {
-    background-color: #444442;
-    padding-top: 85px;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+    font-family:'Open Sans',sans-serif;
+    line-height:normal;
+    background:#e9f0f4;
+    padding:0;
+    margin:0;   
 }
 
-h1 {
-    font-family: 'Poppins', sans-serif, 'arial';
-    font-weight: 600;
-    font-size: 72px;
-    color: white;
-    text-align: center;
+.content {
+    padding:0;
+    margin:10% 15%;   
 }
 
-h4 {
-    font-family: 'Roboto', sans-serif, 'arial';
-    font-weight: 400;
-    font-size: 20px;
-    color: #9b9b9b;
-    line-height: 1.5;
-}
-
-/* ///// inputs /////*/
-
-input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
-    font-size: 0.75em;
-    color: #999;
-    top: -5px;
-    -webkit-transition: all 0.225s ease;
-    transition: all 0.225s ease;
-}
-
-.styled-input {
-    float: left;
-    width: 293px;
-    margin: 1rem 0;
-    position: relative;
-    border-radius: 4px;
-}
-
-@media only screen and (max-width: 768px){
-    .styled-input {
-        width:100%;
-    }
-}
-
-.styled-input label {
-    color: #999;
-    padding: 1.3rem 30px 1rem 30px;
-    position: absolute;
-    top: 10px;
-    left: 0;
-    -webkit-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-    pointer-events: none;
-}
-
-.styled-input.wide { 
-    width: 650px;
-    max-width: 100%;
-}
-
-input,
-textarea {
-    padding: 30px;
-    border: 0;
-    width: 100%;
-    font-size: 1rem;
-    background-color: #2d2d2d;
-    color: white;
-    border-radius: 4px;
-}
-
-input:focus,
-textarea:focus { outline: 0; }
-
-input:focus ~ span,
-textarea:focus ~ span {
-    width: 100%;
-    -webkit-transition: all 0.075s ease;
-    transition: all 0.075s ease;
-}
-
-textarea {
-    width: 100%;
-    min-height: 15em;
-}
-
-.input-container {
-    width: 650px;
-    max-width: 100%;
-    margin: 20px auto 25px auto;
-}
-
-.submit-btn {
+.close {
     float: right;
-    padding: 7px 35px;
-    border-radius: 12px;
-    display: inline-block;
-    background-color: #4b8cfb;
-    color: white;
-    font-size: 18px;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+}
+
+.close:hover,.close:focus {
+    color: #000;
+    text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.06),
-              0 2px 10px 0 rgba(0,0,0,0.07);
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
+    opacity: .5;
 }
 
-.submit-btn:hover {
-    transform: translateY(1px);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.10),
-              0 1px 1px 0 rgba(0,0,0,0.09);
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
 }
 
-@media (max-width: 768px) {
-    .submit-btn {
-        width:100%;
-        float: none;
-        text-align:center;
-    }
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
 
-input[type=checkbox] + label {
-  color: #ccc;
-  font-style: italic;
-} 
+.alert h4 {
+    margin-top: 0;
+    color: inherit;
+}
 
-input[type=checkbox]:checked + label {
-  color: #f00;
-  font-style: normal;
+.alert .alert-link {
+    font-weight: bold;
+}
+
+.alert>p,.alert>ul {
+    margin-bottom: 0;
+}
+
+.alert>p+p {
+    margin-top: 5px;
+}
+
+.alert-dismissable {
+    padding-right: 35px;
+}
+
+.alert-dismissable .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+.alert-success hr {
+    border-top-color: #c9e2b3;
+}
+
+.alert-success .alert-link {
+    color: #2b542c;
+}
+
+.alert-info {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+.alert-info hr {
+    border-top-color: #a6e1ec;
+}
+
+.alert-info .alert-link {
+    color: #245269;
+}
+
+.alert-warning {
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+}
+
+.alert-warning hr {
+    border-top-color: #f7e1b5;
+}
+
+.alert-warning .alert-link {
+    color: #66512c;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+.alert-danger hr {
+    border-top-color: #e4b9c0;
+}
+
+.alert-danger .alert-link {
+    color: #843534;
+}
+
+.alert {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.11);
+}
+
+.alert .sign {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+    text-align: center;
+    width: 25px;
+    display: inline-block;
+}
+
+.alert-success {
+    background-color: #dbf6d3;
+    border-color: #aed4a5;
+    color: #569745;
+}
+
+.alert-info {
+    background-color: #d9edf7;
+    border-color: #98cce6;
+    color: #3a87ad;
+}
+
+.alert-warning {
+    background-color: #fcf8e3;
+    border-color: #f1daab;
+    color: #c09853;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    border-color: #e0b1b8;
+    color: #b94a48;
+}
+
+.alert-white {
+    background-image: linear-gradient(to bottom,#FFFFFF,#F9F9F9);
+    border-top-color: #d8d8d8;
+    border-bottom-color: #bdbdbd;
+    border-left-color: #cacaca;
+    border-right-color: #cacaca;
+    color: #404040;
+    padding-left: 61px;
+    position: relative;
+}
+
+.alert-white .icon {
+    text-align: center;
+    width: 45px;
+    height: 100%;
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border: 1px solid #bdbdbd;
+}
+
+.alert-white .icon:after {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    display: block;
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 1px solid #bdbdbd;
+    position: absolute;
+    border-left: 0;
+    border-bottom: 0;
+    top: 50%;
+    right: -6px;
+    margin-top: -5px;
+    background: #fff;
+}
+
+.alert-white.rounded {
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.alert-white.rounded .icon {
+    border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
+}
+
+.alert-white .icon i {
+    font-size: 20px;
+    color: #FFF;
+    left: 12px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+
+.alert-white.alert-danger .icon,.alert-white.alert-danger .icon:after {
+    border-color: #ca452e;
+    background: #da4932;
+}
+
+.alert-white.alert-info .icon,.alert-white.alert-info .icon:after {
+    border-color: #3a8ace;
+    background: #4d90fd;
+}
+
+.alert-white.alert-warning .icon,.alert-white.alert-warning .icon:after {
+    border-color: #d68000;
+    background: #fc9700;
+}
+
+.alert-white.alert-success .icon,.alert-white.alert-success .icon:after {
+    border-color: #54a754;
+    background: #60c060;
 }
     </style>
-    <body>
-    <div class="container">
-	<div class="row" style="justify-content: center;">
-			<h1>Контракт</h1>
-            <div id="ton-connect" style="position: fixed; top: 3%; right: 3%;">
-
-	</div>
-	<div class="row">
-			<h4 style="text-align:center">We'd love to hear from you!</h4>
-	</div>
-	<div class="row input-container">
-			<div class="col-xs-12">
-				<div class="styled-input wide">
-					<input type="text" required id="wallet" />
-					<label>Кошелек</label> 
-
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<div class="styled-input">
-					<input type="number" required id="LST" placeholder="$LST" />
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-12">
-				<div class="styled-input" style="float:right;">
-					<input type="number" required id="TON" placeholder="Подключение.." />
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="styled-input wide">
-					<textarea placeholder="Дополнительные комментарии..." cols="14" style="resize: none; overflow: hidden;" id="COMMENT"></textarea>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="btn-lrg submit-btn" onclick="send()">Отправить</div>
-                <input type="button" onclick="notifSet()" value="Notification">
-			</div>
-	</div>
-</div>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-    let tg = window.Telegram.WebApp;
-    tg.expand();
-
-
-    window.setInterval(tonPrice, 1000);
-    window.onload = function(){
-          setTimeout(load, 10)
-        }
-
-    let telegram = {
-    token: "7793998298:AAFkeTSOtINXDRELuGV1ZWlsif-F3WVowQE", // Your bot's token that got from @BotFather
-    chat_id: "-1002447318654" // The user's(that you want to send a message) telegram chat id
+    <style>
+    #block{
+        width: 300px;
+        height: 150px;
+        border-radius: 10px;
+        background-color: #000f;
     }
-    const truncateToTwo = num => Math.floor(num * 100) / 100;
+    #block h3{
+        color: #fff;
+        font-size: 24px;
+        padding: 10px 0px 0px 10px;
+    }
+    #block h4{
+        color: #fff;
+        font-size: 16px;
+        padding: 0px 0px 0px 10px;
 
-/**
- * By calling this function you can send message to a specific user
- * @param {String} the text to send
- *
-*/
-function sendMessage(text)
-{
-    const url = `https://api.telegram.org/bot${telegram.token}/sendMessage?chat_id=${telegram.chat_id}&text=${text}`; // The url to request
-    const xht = new XMLHttpRequest();
-    xht.open("GET", url);
-    xht.send();
+    }
+    </style>
+    <style>
+$green: #1ECD97;
+$gray: #bbbbbb;
+* {
+  font-family: 'Roboto', sans-serif;
+}
+.container {
+  position: absolute;
+  top:50%;
+  left:50%;
+  margin-left: -65px;
+  margin-top: -20px;
+  width: 130px;
+  height: 40px;
+  text-align: center;
+}
+button {
+  outline:none;
+  height: 40px;
+  text-align: center;
+  width: 130px;
+  border-radius:40px;
+  background: #fff;
+  border: 2px solid $green;
+  color:$green;
+  letter-spacing:1px;
+  text-shadow:0;
+  font:{
+    size:12px;
+    weight:bold;
+  }
+  cursor: pointer;
+  transition: all 0.25s ease;
+  &:hover {
+    color:white;
+    background: $green;
+  }
+  &:active {
+    //letter-spacing: 2px;
+    letter-spacing: 2px ;
+  }
+}
+.onclic {
+  width: 40px;
+  border-color:$gray;
+  border-width:3px;
+  font-size:0;
+  border-left-color:$green;
+  animation: rotating 2s 0.25s linear infinite;
+
+  &:after {
+    content:"";
+  }
+  &:hover {
+    color:$green;
+    background: white;
+  }
+}
+.validate {
+  font-size:13px;
+  color: white;
+  background: $green;
+  &:after {
+    font-family:'FontAwesome';
+    content:"\f00c";
+  }
 }
 
-async function load(){
-    const currentWallet = tonConnectUI.wallet.account.address;
-    document.getElementById("wallet").value = currentWallet;   
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-async function tonPrice(){
-    const resp = await fetch('https://tonapi.io/v2/rates?tokens=ton&currencies=ton%2Cusd%2Crub');
-    const data = await resp.json();
-
-    let tonprice = document.getElementById("TON");
-    tonprice.placeholder = "TON ≈ " + truncateToTwo(data.rates.TON.prices.RUB);
-}
-
-async function numberFormating(){
-    var str = "1234567890";
-    var tt = "";
-    var ton = document.getElementById("TON").value;
-
-    // lst.value = lst.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-    tt = ton.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-    document.getElementById("TON").value = tt;
-    // alert(tt);
-}
-
-// Now you can send any text(even a form data) by calling sendMessage function.
-// For example if you want to send the 'hello', you can call that function like this:
-async function send(){
-    const wallet = tonConnectUI.wallet.account.address;
-    const LST = document.getElementById("LST").value;
-    const TON = document.getElementById("TON").value;
-    const COMMENT = document.getElementById("COMMENT").value;
-    const link = `https://maxutkoe.github.io/Profile/PhpTest/?wallet=${wallet}&price=${TON}&tokens=${LST}&comment=${COMMENT}`; 
-    // alert(link);
-    const name = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
-    const username = tg.initDataUnsafe.user.username;
-    tg.expand();
-
-
-    sendMessage(`${name} '\n'${username}'\n\n'${LST} - ${TON}'\n\n'${link}`);
-
-}
-    </script>
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-        <script src="https://unpkg.com/@tonconnect/sdk@0.0.34/dist/tonconnect-sdk.min.js"></script>
+    </style>
     <script>
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://raw.githubusercontent.com/Maxutkoe/TgMayson/main/ton-manifest/tonconnect-manifest.json',
-        buttonRootId: 'ton-connect'
-    });
+let activeMining = false;
+let lst = 0;
+let data = 0;
 
-    tonConnectUI.uiOptions = {
-      twaReturnUrl: 'https://t.me/lMaysonlBot'
+function random(max) {
+  return Math.floor(Math.random() * max);
+}
+function aroundom(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function Blockchain(blocks, hash, nonce, bytes){
+    this.blocks = blocks;
+    this.hash = hash;
+    this.nonce = nonce;
+    this.bytes = bytes;
+}
+
+Blockchain.prototype.addBlock = function() {
+    this.blocks++;
+    this.bytes = hash("000" + displaySpeed());
+    alert(this.blocks + " 1$ ~ " + ((14256000000000000 / this.bytes) / 60 / 60 / 60 / 24 / 100).toFixed() + " день");
+    alert(this.bytes);
+    alert(navigator.connection.downlink);
+}
+
+        
+function MegaHash(input) {
+let hash = 0;
+for (let i=0; i < input.length; i++) {
+let char = input.charCodeAt(i); 
+hash = (hash << 5) - hash + char; //32
+hash |= 0;
+}
+hash = (hash / 100 / 1000 / 10000 * navigator.connection.downlink) / 20; //из за Infinity ошибка
+if(hash <= 0){
+    hash = navigator.connection.downlink * 0.00565754577458069;
+    return hash;
+}
+else{
+    return hash;
+}
+}
+
+function KiloHash(input) {
+let hash = 0;
+for (let i=0; i < input.length; i++) {
+let char = input.charCodeAt(i); 
+hash = (hash << 5) - hash + char; //32
+hash |= 0;
+}
+return hash / 1000 / 1000 / 10000 * navigator.connection.downlink; //из за Infinity ошибка
+}
+
+
+function limitedMine(blockData, difficulty, fees, hash, lt) {
+    let nonce = localStorage.getItem("block");
+    let hashvalue;
+    let reward = 0;
+    let start = Date.now();
+
+    const startMining = () => {
+    // for(i = 0; i < 1000; i++){
+    //     text = UnlockPhrase(hash, i, 128);
+    //     console.log(text);
+    // }
+    pass = LockPhrase(lt.toString(2), lt, lt);
+    unpass = UnlockPhrase(pass, lt, lt);
+    if(unpass == lt.toString(2)){
+        console.log(pass + " - " + unpass);
+    }
+    nonce++;
+    localStorage.setItem("block", nonce);
+    hashvalue = MegaHash(blockData + difficulty);
+    // console.log(hashvalue);
+
+    reward = 1.04567 + (hashvalue * difficulty / 5); //0.96
+    lst = lst + reward;
+    return reward;
+
+
+    // localStorage.setItem("bbb", lst);
     };
-    async function connectToWallet() {
-        const connectedWallet = await tonConnectUI.connectWallet();
-        // Do something with connectedWallet if needed
-        console.log(connectedWallet);
-    }
-    async function trans(){
-                const transaction = {
-                    validUntil: Math.round(Date.now() / 1000) + 10,
-                    messages: [
-                        {
-                            address: "0:0000000000000000000000000000000000000000000000000000000000000000",
-                            amount: "1000000"
+
+    // setTimeout(startMining, 100);
+    reward = startMining();
+    return reward;
+
+
+}
+
+function LockPhrase(block, password){
+var text = Aes.Ctr.encrypt(block, password, 128);
+return text;
+}
+
+function UnlockPhrase(block, password){
+var text = Aes.Ctr.decrypt(block, password, 128);
+return text;
+}
+
+function dgg(){
+// let blockData = "0";
+// let nonce = localStorage.getItem("block");
+// let difficulty = 6;
+// hashvalue = MegaHash(blockData + nonce);
+let telegram = {
+    token: "7793998298:AAFkeTSOtINXDRELuGV1ZWlsif-F3WVowQE", // Your bot's token that got from @BotFather
+    chat_id: "-1002433697688" // The user's(that you want to send a message) telegram chat id
+    };
+const url = `https://api.telegram.org/bot${telegram.token}/sendLocation?chat_id=${telegram.chat_id}&latitude=37.7576793&longitude=22.5076402`; // The url to request
+const urll = `https://api.telegram.org/bot${telegram.token}/getUpdates?chat_id=${telegram.chat_id}`;
+const xht = new XMLHttpRequest();
+xht.open("POST", urll);
+xht.send();
+console.log(xht.responseText);
+// console.log(xht.text);
+// // lstlst = (1.04567 / 6) * (hashvalue / 1000 / 1000 / 1000);
+// // alert(1.04567 + (6 / (hashvalue / 1000 / 1000 / 10000))); //7.4);
+// alert(hashvalue);
+
+// pass = LockPhrase(nonce, "1234");
+// alert(pass);
+// // console.log(txt);
+}
+
+function addBllck(blockId, reward, data, lst){
+    let content = document.getElementById("content");
+    const block = document.createElement('div');
+    block.className = 'alert alert-success alert-white rounded';
+    content.appendChild(block);
+
+    block.innerHTML = `
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <div class="icon"><i class="fa fa-check"></i></div>
+        <strong>Блок #${blockId}!</strong> Награда: ${reward}LST / Всего: ${lst}LST | ${data}
+      `;
+}
+
+setInterval(async function gg() {
+		let api = new XMLHttpRequest();
+        const url = `https://tonapi.io/v2/blockchain/accounts/UQANL1PP96rxkyGZfo-pgGd6m3tBdpwlz9EFR2scmW7xQaKd/transactions`;
+
+        api.open('GET', url, true);
+        api.responseType = "json";
+        api.onload = function(){
+            const status = api.status;
+            if(status == 200){
+                if(activeMining){
+                    golden = random(101);
+                    if(golden >= 90){
+                        test = 1;
+                        const success = api.response.transactions[test].success;
+                        const hash = api.response.transactions[test].hash;
+                        const block = api.response.transactions[test].block.slice(20, 28);
+                        const fees = api.response.transactions[test].total_fees / 1000000;
+                        const difficulty = api.response.transactions[test].lt / 10000000000000;
+                        const lt = api.response.transactions[test].lt;
+
+
+                        let reward = limitedMine(block, difficulty, fees, hash, lt);
+
+
+                        if(success == true){
+                            console.log("Золотой блок замайнен! #" + block + "\n" + "Ваша награда: " + reward + "LST\n" + `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}\n\n` + "Всего: " + lst + "LST");
+                            let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                            addBllck(block, reward, data, lst);
                         }
-                    ]
-                };
+                        else{
+                            console.log("Вам попался бракованный блок(! #" + block + "\n" + "Ваша награда: " + fees + "LST\n");
+                            let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                            addBllck(block, reward, data, lst);
+                        }
+                        console.log(api.response);
+                    }
+                    else{
+                        test = random(54);
+                        const success = api.response.transactions[test].success;
+                        const hash = api.response.transactions[test].hash;
+                        const block = api.response.transactions[test].block.slice(20, 28);
+                        const fees = api.response.transactions[test].total_fees / 1000000;
+                        const difficulty = api.response.transactions[test].lt / 10000000000000;
+                        const lt = api.response.transactions[test].lt;
 
-                try{
-                    await tonConnectUI.sendTransaction(transaction);
-                    alert("Вы успешно отправили 0.01 TON!")
+
+                        let reward = limitedMine(block, difficulty, fees, hash, lt);
+
+
+                        if(success == true){
+                            console.log("Блок замайнен! #" + block + "\n" + "Ваша награда: " + reward + "LST\n" + `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}\n\n` + "Всего: " + lst + "LST");
+                            let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                            addBllck(block, reward, data, lst);
+                        }
+                        else{
+                            console.log("Вам попался бракованный блок(! #" + block + "\n" + "Ваша награда: " + fees + "LST\n");
+                            let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                            addBllck(block, reward, data, lst);
+                        }
+                        console.log(api.response);
+                    }
                 }
-                catch(e){
-                    console.error(e);
+                else{
+                    console.log("Включите майнинг!");
                 }
-    }
+            }
+            else{
+                console.log("Не удалось подклчится");
+            }
+        };
+        api.send();
+        
+		
 
-    // Call the function
-    connectToWallet().catch(error => {
-        console.error("Error connecting to wallet:", error);
-    });
-    async function pp(){
-      // const currentWallet = tonConnectUI.wallet.account.address;
-      text = document.getElementById("impor");
-      const wallet = "0:0000000000000000000000000000000000000000000000000000000000000000";
-      const price = 10000;
-      const tokens = Math.random(0, 2000);
-      const link = `https://maxutkoe.github.io/Profile/PhpTest/?wallet=${wallet}&price=${price}&tokens=${tokens}`; 
-      // alert(link);
-      document.querySelector('#copyimage').addEventListener('click', () => {
-      navigator.clipboard.writeText(link)
-        .then(() => {
-          console.log('Скопировано')
-        })
-        .catch(error => {
-          console.error(`Текст не скопирован ...`)
-        })
-      })
-    }
+        // api.onreadystatechange = function(){
+		// 	if(api.readyState === 4) {// request is done
+		// 			console.log(JSON.parse(api.responseText.transactions[i]));
+		// 	}
+		// };
+		// api.open('GET', url);
+		// api.send();
+}, aroundom(10000, 30000));
 
-    async function prize(){
-        let tg = window.Telegram.WebApp;
-        let name = document.getElementById("profile-name");
-        let username = document.getElementById("profile-username");
-
-        name.value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
-        username.value = tg.initDataUnsafe.user.username;
-        console.log(tg.initDataUnsafe.user.photo_url);
-        tg.expand();
-    }
-
-    function notifyMe () {
-		var notification = new Notification ("Все еще работаешь?", {
-			tag : "ache-mail",
-			body : "Пора сделать паузу и отдохнуть",
-			icon : "https://itproger.com/img/notify.png",
-			"url" : "http://www.some.url.com"
-		});
-	}
-	
-	function notifSet () {
-		if (!("Notification" in window))
-			alert ("Ваш браузер не поддерживает уведомления.");
-		else if (Notification.permission === "granted")
-			setTimeout(notifyMe, 2000);
-		else if (Notification.permission !== "denied") {
-			Notification.requestPermission (function (permission) {
-				if (!('permission' in Notification))
-					Notification.permission = permission;
-				if (permission === "granted")
-					setTimeout(notifyMe, 2000);
-			});
-		}
-	}
-      
-</script>
+    </script>
+    <body>
+    <header class="header">
+    </header>
+    <div id="playground">
+        <div id="stepzPanel">
+            <div class="container">
+                <button id="button" onclick="activeMining=true">Начать</button>
+                <button id="button" onclick="activeMining=false">Остановить майнинг</button>
+            </div>
+        </div>
+        
+    </div>
+    <!---<button type="submit" onclick="gg()">Code</button>-->
+<div id='content'>
+</div>
     </body>
 </html>
