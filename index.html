@@ -6,355 +6,137 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="https://rawgit.com/victornpb/f639f37373be0f6e82e1/raw/5d8f7ee8b32ae04de087d2377d8086e3389ee411/AES.js"></script>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+        <meta name="apple-mobile-web-app-title" content="CodePen">
+        <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+        <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+  <title>Latest transactions</title>
+    <link rel="canonical" href="https://codepen.io/havardob/pen/PoWbeoZ">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
     </head>
     <style>
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
 
 body {
-    font-family:'Open Sans',sans-serif;
-    line-height:normal;
-    background:#e9f0f4;
-    padding:0;
-    margin:0;   
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 5rem 0;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
 }
 
-.content {
-    padding:0;
-    margin:10% 15%;   
+section {
+  width: 90%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+section + section {
+  margin-top: 2.5em;
 }
 
-.close {
-    float: right;
-    font-size: 21px;
-    font-weight: bold;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    opacity: .2;
+h1 {
+  font-weight: 700;
+  line-height: 1.125;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
-.close:hover,.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-    opacity: .5;
+h2 {
+  margin-top: 0.25em;
+  color: #999;
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+}
+h2 + * {
+  margin-top: 1.5em;
 }
 
-button.close {
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    -webkit-appearance: none;
-}
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert h4 {
-    margin-top: 0;
-    color: inherit;
-}
-
-.alert .alert-link {
-    font-weight: bold;
-}
-
-.alert>p,.alert>ul {
-    margin-bottom: 0;
-}
-
-.alert>p+p {
-    margin-top: 5px;
-}
-
-.alert-dismissable {
-    padding-right: 35px;
-}
-
-.alert-dismissable .close {
-    position: relative;
-    top: -2px;
-    right: -21px;
-    color: inherit;
-}
-
-.alert-success {
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    color: #3c763d;
-}
-
-.alert-success hr {
-    border-top-color: #c9e2b3;
-}
-
-.alert-success .alert-link {
-    color: #2b542c;
-}
-
-.alert-info {
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-    color: #31708f;
-}
-
-.alert-info hr {
-    border-top-color: #a6e1ec;
-}
-
-.alert-info .alert-link {
-    color: #245269;
-}
-
-.alert-warning {
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-    color: #8a6d3b;
-}
-
-.alert-warning hr {
-    border-top-color: #f7e1b5;
-}
-
-.alert-warning .alert-link {
-    color: #66512c;
-}
-
-.alert-danger {
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    color: #a94442;
-}
-
-.alert-danger hr {
-    border-top-color: #e4b9c0;
-}
-
-.alert-danger .alert-link {
-    color: #843534;
-}
-
-.alert {
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.11);
-}
-
-.alert .sign {
-    font-size: 20px;
-    vertical-align: middle;
-    margin-right: 5px;
-    text-align: center;
-    width: 25px;
-    display: inline-block;
-}
-
-.alert-success {
-    background-color: #dbf6d3;
-    border-color: #aed4a5;
-    color: #569745;
-}
-
-.alert-info {
-    background-color: #d9edf7;
-    border-color: #98cce6;
-    color: #3a87ad;
-}
-
-.alert-warning {
-    background-color: #fcf8e3;
-    border-color: #f1daab;
-    color: #c09853;
-}
-
-.alert-danger {
-    background-color: #f2dede;
-    border-color: #e0b1b8;
-    color: #b94a48;
-}
-
-.alert-white {
-    background-image: linear-gradient(to bottom,#FFFFFF,#F9F9F9);
-    border-top-color: #d8d8d8;
-    border-bottom-color: #bdbdbd;
-    border-left-color: #cacaca;
-    border-right-color: #cacaca;
-    color: #404040;
-    padding-left: 61px;
-    position: relative;
-}
-
-.alert-white .icon {
-    text-align: center;
-    width: 45px;
-    height: 100%;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    border: 1px solid #bdbdbd;
-}
-
-.alert-white .icon:after {
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    display: block;
-    content: '';
-    width: 10px;
-    height: 10px;
-    border: 1px solid #bdbdbd;
-    position: absolute;
-    border-left: 0;
-    border-bottom: 0;
-    top: 50%;
-    right: -6px;
-    margin-top: -5px;
-    background: #fff;
-}
-
-.alert-white.rounded {
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
-
-.alert-white.rounded .icon {
-    border-radius: 3px 0 0 3px;
-    -webkit-border-radius: 3px 0 0 3px;
-}
-
-.alert-white .icon i {
-    font-size: 20px;
-    color: #FFF;
-    left: 12px;
-    margin-top: -10px;
-    position: absolute;
-    top: 50%;
-}
-
-.alert-white.alert-danger .icon,.alert-white.alert-danger .icon:after {
-    border-color: #ca452e;
-    background: #da4932;
-}
-
-.alert-white.alert-info .icon,.alert-white.alert-info .icon:after {
-    border-color: #3a8ace;
-    background: #4d90fd;
-}
-
-.alert-white.alert-warning .icon,.alert-white.alert-warning .icon:after {
-    border-color: #d68000;
-    background: #fc9700;
-}
-
-.alert-white.alert-success .icon,.alert-white.alert-success .icon:after {
-    border-color: #54a754;
-    background: #60c060;
-}
-    </style>
-    <style>
-    #block{
-        width: 300px;
-        height: 150px;
-        border-radius: 10px;
-        background-color: #000f;
-    }
-    #block h3{
-        color: #fff;
-        font-size: 24px;
-        padding: 10px 0px 0px 10px;
-    }
-    #block h4{
-        color: #fff;
-        font-size: 16px;
-        padding: 0px 0px 0px 10px;
-
-    }
-    </style>
-    <style>
-$green: #1ECD97;
-$gray: #bbbbbb;
-* {
-  font-family: 'Roboto', sans-serif;
-}
-.container {
-  position: absolute;
-  top:50%;
-  left:50%;
-  margin-left: -65px;
-  margin-top: -20px;
-  width: 130px;
-  height: 40px;
-  text-align: center;
-}
-button {
-  outline:none;
-  height: 40px;
-  text-align: center;
-  width: 130px;
-  border-radius:40px;
-  background: #fff;
-  border: 2px solid $green;
-  color:$green;
-  letter-spacing:1px;
-  text-shadow:0;
-  font:{
-    size:12px;
-    weight:bold;
-  }
+summary {
+  background-color: #fff;
+  position: relative;
   cursor: pointer;
-  transition: all 0.25s ease;
-  &:hover {
-    color:white;
-    background: $green;
-  }
-  &:active {
-    //letter-spacing: 2px;
-    letter-spacing: 2px ;
-  }
+  padding: 1em 0.5em;
+  list-style: none;
 }
-.onclic {
-  width: 40px;
-  border-color:$gray;
-  border-width:3px;
-  font-size:0;
-  border-left-color:$green;
-  animation: rotating 2s 0.25s linear infinite;
+summary::-webkit-details-marker {
+  display: none;
+}
+summary:hover {
+  background-color: #f2f5f9;
+}
+summary div {
+  display: flex;
+  align-items: center;
+}
+summary h3 {
+  display: flex;
+  flex-direction: column;
+}
+summary small {
+  color: #999;
+  font-size: 0.875em;
+}
+summary strong {
+  font-weight: 700;
+}
+summary span:first-child {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 10px;
+  background-color: #f3e1e1;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.25em;
+}
+summary span:first-child svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+summary span:last-child {
+  font-weight: 700;
+  margin-left: auto;
+}
+summary:focus {
+  outline: none;
+}
+summary .plus {
+  color: #289672;
+}
 
-  &:after {
-    content:"";
-  }
-  &:hover {
-    color:$green;
-    background: white;
-  }
+details {
+  border-bottom: 1px solid #b5bfd9;
 }
-.validate {
-  font-size:13px;
-  color: white;
-  background: $green;
-  &:after {
-    font-family:'FontAwesome';
-    content:"\f00c";
-  }
+details[open] {
+  box-shadow: -3px 0 0 #b5bfd9;
+}
+details:first-of-type {
+  border-top: 1px solid #b5bfd9;
+}
+details > div {
+  padding: 2em 2em 0;
+  font-size: 0.875em;
 }
 
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+dl {
+  display: flex;
+  flex-wrap: wrap;
 }
-    </style>
+dl dt {
+  font-weight: 700;
+}
+dl div {
+  margin-right: 4em;
+  margin-bottom: 2em;
+}
+</style>
     <script>
 let activeMining = false;
 let lst = 0;
@@ -482,17 +264,50 @@ console.log(xht.responseText);
 // // console.log(txt);
 }
 
-function addBllck(blockId, reward, data, lst){
-    let content = document.getElementById("content");
-    const block = document.createElement('div');
-    block.className = 'alert alert-success alert-white rounded';
+function addBllck(blockId, reward, data, lst, hash, golden){
+    let content = document.getElementById("checking");
+    const block = document.createElement('details');
     content.appendChild(block);
 
     block.innerHTML = `
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <div class="icon"><i class="fa fa-check"></i></div>
-        <strong>Блок #${blockId}!</strong> Награда: ${reward}LST / Всего: ${lst}LST | ${data}
+      <summary>
+			<div>
+				<span style="background-color: #f2dcbb;">
+					<!--<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<path d="M192,120h27.05573a8,8,0,0,0,7.15542-4.42229l18.40439-36.80878a8,8,0,0,0-3.18631-10.52366L192,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M64,120H36.94427a8,8,0,0,1-7.15542-4.42229L11.38446,78.76893a8,8,0,0,1,3.18631-10.52366L64,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M160,40a32,32,0,0,1-64,0H64V208a8,8,0,0,0,8,8H184a8,8,0,0,0,8-8V40Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+					</svg>-->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.6005 5.31125L11.9505 2.27125C11.3505 1.95125 10.6405 1.95125 10.0405 2.27125L4.40047 5.31125C3.99047 5.54125 3.73047 5.98125 3.73047 6.46125C3.73047 6.95125 3.98047 7.39125 4.40047 7.61125L10.0505 10.6512C10.3505 10.8112 10.6805 10.8913 11.0005 10.8913C11.3205 10.8913 11.6605 10.8112 11.9505 10.6512L17.6005 7.61125C18.0105 7.39125 18.2705 6.95125 18.2705 6.46125C18.2705 5.98125 18.0105 5.54125 17.6005 5.31125Z" fill="#000000"></path> <path d="M9.12 11.7106L3.87 9.09058C3.46 8.88058 3 8.91058 2.61 9.14058C2.23 9.38058 2 9.79058 2 10.2406V15.2006C2 16.0606 2.48 16.8306 3.25 17.2206L8.5 19.8406C8.68 19.9306 8.88 19.9806 9.08 19.9806C9.31 19.9806 9.55 19.9106 9.76 19.7906C10.14 19.5506 10.37 19.1406 10.37 18.6906V13.7306C10.36 12.8706 9.88 12.1006 9.12 11.7106Z" fill="#000000"></path> <path d="M20.0006 10.2406V12.7006C19.5206 12.5606 19.0106 12.5006 18.5006 12.5006C17.1406 12.5006 15.8106 12.9706 14.7606 13.8106C13.3206 14.9406 12.5006 16.6506 12.5006 18.5006C12.5006 18.9906 12.5606 19.4806 12.6906 19.9506C12.5406 19.9306 12.3906 19.8706 12.2506 19.7806C11.8706 19.5506 11.6406 19.1406 11.6406 18.6906V13.7306C11.6406 12.8706 12.1206 12.1006 12.8806 11.7106L18.1306 9.09058C18.5406 8.88058 19.0006 8.91058 19.3906 9.14058C19.7706 9.38058 20.0006 9.79058 20.0006 10.2406Z" fill="#000000"></path> <path d="M21.6814 15.3206C20.7914 14.4306 19.6114 13.9806 18.4414 14.0006C17.3114 14.0106 16.1814 14.4606 15.3214 15.3206C14.7214 15.9106 14.3314 16.6506 14.1414 17.4206C14.0314 17.8406 13.9914 18.2706 14.0214 18.7006V18.7506C14.0214 18.8206 14.0314 18.8806 14.0414 18.9606C14.0414 18.9606 14.0414 18.9606 14.0514 18.9706V19.0006C14.1414 19.9806 14.5614 20.9306 15.3214 21.6806C16.4814 22.8406 18.1114 23.2306 19.5814 22.8606C20.0214 22.7506 20.4514 22.5706 20.8514 22.3306C21.1514 22.1606 21.4314 21.9406 21.6814 21.6806C22.4314 20.9306 22.8614 19.9806 22.9514 18.9906C22.9614 18.9906 22.9614 18.9706 22.9614 18.9606C22.9814 18.8906 22.9814 18.8106 22.9814 18.7406C22.9814 18.7306 22.9914 18.7106 22.9914 18.6906C23.0514 17.4806 22.6114 16.2406 21.6814 15.3206ZM20.2314 20.2106C19.9414 20.5006 19.4714 20.5006 19.1714 20.2106L18.5114 19.5506L17.8314 20.2306C17.5314 20.5306 17.0614 20.5306 16.7714 20.2306C16.4714 19.9406 16.4714 19.4706 16.7714 19.1706L17.4514 18.4906L16.7914 17.8306C16.5014 17.5306 16.5014 17.0606 16.7914 16.7706C17.0914 16.4706 17.5614 16.4706 17.8614 16.7706L18.5114 17.4306L19.1414 16.7906C19.4414 16.5006 19.9114 16.5006 20.2114 16.7906C20.5014 17.0906 20.5014 17.5606 20.2114 17.8606L19.5714 18.4906L20.2314 19.1406C20.5314 19.4406 20.5314 19.9106 20.2314 20.2106Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Block</strong>
+					<small>${golden}</small>
+				</h3>
+				<span>${reward}</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>${data}</dd>
+				</div>
+
+				<div>
+					<dt>Hash used</dt>
+					<dd>${hash}</dd> <!--•-->
+				</div>
+
+				<div>
+					<dt>Block ID</dt>
+					<dd>#${blockId}</dd>
+				</div>
+			</dl>
+		</div>
       `;
+      console.log("ff")
 }
 
 setInterval(async function gg() {
@@ -522,12 +337,12 @@ setInterval(async function gg() {
                         if(success == true){
                             console.log("Золотой блок замайнен! #" + block + "\n" + "Ваша награда: " + reward + "LST\n" + `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}\n\n` + "Всего: " + lst + "LST");
                             let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-                            addBllck(block, reward, data, lst);
+                            addBllck(block, reward, data, lst, hash, "Golden block!");
                         }
                         else{
                             console.log("Вам попался бракованный блок(! #" + block + "\n" + "Ваша награда: " + fees + "LST\n");
                             let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-                            addBllck(block, reward, data, lst);
+                            addBllck(block, reward, data, lst, hash, "Broken golden block!");
                         }
                         console.log(api.response);
                     }
@@ -547,12 +362,12 @@ setInterval(async function gg() {
                         if(success == true){
                             console.log("Блок замайнен! #" + block + "\n" + "Ваша награда: " + reward + "LST\n" + `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}\n\n` + "Всего: " + lst + "LST");
                             let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-                            addBllck(block, reward, data, lst);
+                            addBllck(block, reward, data, lst, hash, "New block!");
                         }
                         else{
                             console.log("Вам попался бракованный блок(! #" + block + "\n" + "Ваша награда: " + fees + "LST\n");
                             let data = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-                            addBllck(block, reward, data, lst);
+                            addBllck(block, reward, data, lst, hash, "Broken block!");
                         }
                         console.log(api.response);
                     }
@@ -562,7 +377,7 @@ setInterval(async function gg() {
                 }
             }
             else{
-                console.log("Не удалось подклчится");
+                console.log("Не удалось подклчиться");
             }
         };
         api.send();
@@ -582,7 +397,7 @@ setInterval(async function gg() {
     <body>
     <header class="header">
     </header>
-    <div id="playground">
+    <!--<div id="playground">
         <div id="stepzPanel">
             <div class="container">
                 <button id="button" onclick="activeMining=true">Начать</button>
@@ -591,8 +406,265 @@ setInterval(async function gg() {
         </div>
         
     </div>
-    <!---<button type="submit" onclick="gg()">Code</button>-->
+    <button type="submit" onclick="gg()">Code</button>
 <div id='content'>
-</div>
+</div>-->
+  <section id="contentyy">
+	<h1>Latest Transactions</h1>
+	<h2>Checking...</h2>
+       <div id="checking">
+       </div>
+       <br>
+       <br>
+       <br>
+       <h1>Latest Transactions</h1>
+	<h2>Today</h2>
+	<details>
+		<summary>
+			<div>
+				<span style="background-color: #f2dcbb;">
+					<!--<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<path d="M192,120h27.05573a8,8,0,0,0,7.15542-4.42229l18.40439-36.80878a8,8,0,0,0-3.18631-10.52366L192,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M64,120H36.94427a8,8,0,0,1-7.15542-4.42229L11.38446,78.76893a8,8,0,0,1,3.18631-10.52366L64,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M160,40a32,32,0,0,1-64,0H64V208a8,8,0,0,0,8,8H184a8,8,0,0,0,8-8V40Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+					</svg>-->
+                                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.6005 5.31125L11.9505 2.27125C11.3505 1.95125 10.6405 1.95125 10.0405 2.27125L4.40047 5.31125C3.99047 5.54125 3.73047 5.98125 3.73047 6.46125C3.73047 6.95125 3.98047 7.39125 4.40047 7.61125L10.0505 10.6512C10.3505 10.8112 10.6805 10.8913 11.0005 10.8913C11.3205 10.8913 11.6605 10.8112 11.9505 10.6512L17.6005 7.61125C18.0105 7.39125 18.2705 6.95125 18.2705 6.46125C18.2705 5.98125 18.0105 5.54125 17.6005 5.31125Z" fill="#000000"></path> <path d="M9.12 11.7106L3.87 9.09058C3.46 8.88058 3 8.91058 2.61 9.14058C2.23 9.38058 2 9.79058 2 10.2406V15.2006C2 16.0606 2.48 16.8306 3.25 17.2206L8.5 19.8406C8.68 19.9306 8.88 19.9806 9.08 19.9806C9.31 19.9806 9.55 19.9106 9.76 19.7906C10.14 19.5506 10.37 19.1406 10.37 18.6906V13.7306C10.36 12.8706 9.88 12.1006 9.12 11.7106Z" fill="#000000"></path> <path d="M20.0006 10.2406V12.7006C19.5206 12.5606 19.0106 12.5006 18.5006 12.5006C17.1406 12.5006 15.8106 12.9706 14.7606 13.8106C13.3206 14.9406 12.5006 16.6506 12.5006 18.5006C12.5006 18.9906 12.5606 19.4806 12.6906 19.9506C12.5406 19.9306 12.3906 19.8706 12.2506 19.7806C11.8706 19.5506 11.6406 19.1406 11.6406 18.6906V13.7306C11.6406 12.8706 12.1206 12.1006 12.8806 11.7106L18.1306 9.09058C18.5406 8.88058 19.0006 8.91058 19.3906 9.14058C19.7706 9.38058 20.0006 9.79058 20.0006 10.2406Z" fill="#000000"></path> <path d="M21.6814 15.3206C20.7914 14.4306 19.6114 13.9806 18.4414 14.0006C17.3114 14.0106 16.1814 14.4606 15.3214 15.3206C14.7214 15.9106 14.3314 16.6506 14.1414 17.4206C14.0314 17.8406 13.9914 18.2706 14.0214 18.7006V18.7506C14.0214 18.8206 14.0314 18.8806 14.0414 18.9606C14.0414 18.9606 14.0414 18.9606 14.0514 18.9706V19.0006C14.1414 19.9806 14.5614 20.9306 15.3214 21.6806C16.4814 22.8406 18.1114 23.2306 19.5814 22.8606C20.0214 22.7506 20.4514 22.5706 20.8514 22.3306C21.1514 22.1606 21.4314 21.9406 21.6814 21.6806C22.4314 20.9306 22.8614 19.9806 22.9514 18.9906C22.9614 18.9906 22.9614 18.9706 22.9614 18.9606C22.9814 18.8906 22.9814 18.8106 22.9814 18.7406C22.9814 18.7306 22.9914 18.7106 22.9914 18.6906C23.0514 17.4806 22.6114 16.2406 21.6814 15.3206ZM20.2314 20.2106C19.9414 20.5006 19.4714 20.5006 19.1714 20.2106L18.5114 19.5506L17.8314 20.2306C17.5314 20.5306 17.0614 20.5306 16.7714 20.2306C16.4714 19.9406 16.4714 19.4706 16.7714 19.1706L17.4514 18.4906L16.7914 17.8306C16.5014 17.5306 16.5014 17.0606 16.7914 16.7706C17.0914 16.4706 17.5614 16.4706 17.8614 16.7706L18.5114 17.4306L19.1414 16.7906C19.4414 16.5006 19.9114 16.5006 20.2114 16.7906C20.5014 17.0906 20.5014 17.5606 20.2114 17.8606L19.5714 18.4906L20.2314 19.1406C20.5314 19.4406 20.5314 19.9106 20.2314 20.2106Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>American Eagle</strong>
+					<small>Clothes &amp; Fashion</small>
+				</h3>
+				<span>-39.99 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>4.27pm</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568911</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+	<details>
+		<summary>
+			<div>
+				<span>
+					<!--<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<rect x="32" y="80" width="192" height="48" rx="7.99999" stroke-width="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
+						<path d="M208,128v72a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<line x1="128" y1="80" x2="128" y2="208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+						<path d="M173.25483,68.68629C161.94113,80,128,80,128,80s0-33.94113,11.31371-45.25483a24,24,0,0,1,33.94112,33.94112Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M82.74517,68.68629C94.05887,80,128,80,128,80s0-33.94113-11.31371-45.25483A24,24,0,0,0,82.74517,68.68629Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+					</svg>-->
+                                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.6005 5.31125L11.9505 2.27125C11.3505 1.95125 10.6405 1.95125 10.0405 2.27125L4.40047 5.31125C3.99047 5.54125 3.73047 5.98125 3.73047 6.46125C3.73047 6.95125 3.98047 7.39125 4.40047 7.61125L10.0505 10.6512C10.3505 10.8112 10.6805 10.8913 11.0005 10.8913C11.3205 10.8913 11.6605 10.8112 11.9505 10.6512L17.6005 7.61125C18.0105 7.39125 18.2705 6.95125 18.2705 6.46125C18.2705 5.98125 18.0105 5.54125 17.6005 5.31125Z" fill="#000000"></path> <path d="M9.12 11.7106L3.87 9.09058C3.46 8.88058 3 8.91058 2.61 9.14058C2.23 9.38058 2 9.79058 2 10.2406V15.2006C2 16.0606 2.48 16.8306 3.25 17.2206L8.5 19.8406C8.68 19.9306 8.88 19.9806 9.08 19.9806C9.31 19.9806 9.55 19.9106 9.76 19.7906C10.14 19.5506 10.37 19.1406 10.37 18.6906V13.7306C10.36 12.8706 9.88 12.1006 9.12 11.7106Z" fill="#000000"></path> <path d="M20.0006 10.2406V12.7006C19.5206 12.5606 19.0106 12.5006 18.5006 12.5006C17.1406 12.5006 15.8106 12.9706 14.7606 13.8106C13.3206 14.9406 12.5006 16.6506 12.5006 18.5006C12.5006 18.9906 12.5606 19.4806 12.6906 19.9506C12.5406 19.9306 12.3906 19.8706 12.2506 19.7806C11.8706 19.5506 11.6406 19.1406 11.6406 18.6906V13.7306C11.6406 12.8706 12.1206 12.1006 12.8806 11.7106L18.1306 9.09058C18.5406 8.88058 19.0006 8.91058 19.3906 9.14058C19.7706 9.38058 20.0006 9.79058 20.0006 10.2406Z" fill="#000000"></path> <path d="M21.98 15.6695C21.16 14.6595 19.91 14.0195 18.5 14.0195C17.44 14.0195 16.46 14.3895 15.69 15.0095C14.65 15.8295 14 17.0995 14 18.5195C14 19.3595 14.24 20.1595 14.65 20.8395C14.92 21.2895 15.26 21.6795 15.66 21.9995H15.67C16.44 22.6395 17.43 23.0195 18.5 23.0195C19.64 23.0195 20.67 22.5995 21.46 21.8995C21.81 21.5995 22.11 21.2395 22.35 20.8395C22.76 20.1595 23 19.3595 23 18.5195C23 17.4395 22.62 16.4395 21.98 15.6695ZM20.76 17.9595L18.36 20.1795C18.22 20.3095 18.03 20.3795 17.85 20.3795C17.66 20.3795 17.47 20.3095 17.32 20.1595L16.21 19.0495C15.92 18.7595 15.92 18.2795 16.21 17.9895C16.5 17.6995 16.98 17.6995 17.27 17.9895L17.87 18.5895L19.74 16.8595C20.04 16.5795 20.52 16.5995 20.8 16.8995C21.09 17.2095 21.07 17.6795 20.76 17.9595Z" fill="#000000"></path> </g></svg>
+                                   
+				</span>
+				<h3>
+					<strong>From Håvard Brynjulfsen</strong>
+					<small>Gift</small>
+				</h3>
+				<span class="plus">+50.00 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>8.14am</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568912</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+	<details>
+		<summary>
+			<div>
+				<span style="background-color: #e0ece4;">
+					<!--<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="#000000" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<line x1="88" y1="24" x2="88" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+						<line x1="120" y1="24" x2="120" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+						<line x1="152" y1="24" x2="152" y2="56" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+						<line x1="32" y1="216" x2="208" y2="216" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+						<path d="M83.29651,216.0038A88.01441,88.01441,0,0,1,32,136V88H208v48a88.0144,88.0144,0,0,1-51.29712,80.00408" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+						<path d="M208,88h0a32,32,0,0,1,32,32V128a32,32,0,0,1-32,32h-3.37846" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+					</svg>-->
+                                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.0002 22.75C14.7302 22.75 14.4802 22.6 14.3502 22.37C14.2202 22.14 14.2202 21.85 14.3602 21.62L15.4102 19.87C15.6202 19.51 16.0802 19.4 16.4402 19.61C16.8002 19.82 16.9102 20.28 16.7002 20.64L16.4302 21.09C19.1902 20.44 21.2602 17.96 21.2602 15C21.2602 14.59 21.6002 14.25 22.0102 14.25C22.4202 14.25 22.7602 14.59 22.7602 15C22.7502 19.27 19.2702 22.75 15.0002 22.75Z" fill="#000000"></path> <path d="M2 9.75C1.59 9.75 1.25 9.41 1.25 9C1.25 4.73 4.73 1.25 9 1.25C9.27 1.25 9.52 1.4 9.65 1.63C9.78 1.86 9.78 2.15 9.64 2.38L8.59 4.14C8.38 4.49 7.92 4.61 7.56 4.39C7.21 4.18 7.09 3.72 7.31 3.36L7.58 2.91C4.81 3.56 2.75 6.04 2.75 9C2.75 9.41 2.41 9.75 2 9.75Z" fill="#000000"></path> <path d="M10.6709 13.8484L7.53094 12.1584C7.20094 11.9784 6.80094 11.9784 6.47094 12.1584L3.33094 13.8484C3.10094 13.9684 2.96094 14.2184 2.96094 14.4884C2.96094 14.7584 3.10094 15.0084 3.33094 15.1284L6.47094 16.8184C6.64094 16.9084 6.82094 16.9484 7.00094 16.9484C7.18094 16.9484 7.36094 16.9084 7.53094 16.8184L10.6709 15.1284C10.9009 15.0084 11.0409 14.7584 11.0409 14.4884C11.0409 14.2184 10.8909 13.9784 10.6709 13.8484Z" fill="#000000"></path> <path d="M5.95 17.4106L3.03 15.9506C2.81 15.8406 2.55 15.8506 2.33 15.9806C2.13 16.1106 2 16.3406 2 16.5906V19.3506C2 19.8306 2.26 20.2606 2.69 20.4706L5.61 21.9306C5.71 21.9706 5.82 22.0006 5.93 22.0006C6.06 22.0006 6.19 21.9606 6.31 21.8906C6.52 21.7606 6.65 21.5306 6.65 21.2806V18.5206C6.65 18.0506 6.38 17.6206 5.95 17.4106Z" fill="#000000"></path> <path d="M11.6616 15.9806C11.4516 15.8506 11.1916 15.8406 10.9616 15.9506L8.04156 17.4106C7.61156 17.6206 7.35156 18.0506 7.35156 18.5306V21.2906C7.35156 21.5406 7.48156 21.7706 7.69156 21.9006C7.81156 21.9606 7.94156 22.0006 8.07156 22.0006C8.18156 22.0006 8.29156 21.9706 8.39156 21.9206L11.3116 20.4606C11.7416 20.2506 12.0016 19.8206 12.0016 19.3406V16.5806C12.0016 16.3406 11.8716 16.1106 11.6616 15.9806Z" fill="#000000"></path> <path d="M20.6709 3.82891L17.5309 2.13891C17.2009 1.95891 16.8009 1.95891 16.4709 2.13891L13.3309 3.82891C13.1009 3.94891 12.9609 4.19891 12.9609 4.46891C12.9609 4.73891 13.1009 4.98891 13.3309 5.10891L16.4709 6.79891C16.6409 6.88891 16.8209 6.92891 17.0009 6.92891C17.1809 6.92891 17.3609 6.88891 17.5309 6.79891L20.6709 5.10891C20.9009 4.98891 21.0409 4.73891 21.0409 4.46891C21.0409 4.18891 20.8909 3.94891 20.6709 3.82891Z" fill="#000000"></path> <path d="M15.95 7.37938L13.03 5.91938C12.81 5.80938 12.55 5.81937 12.33 5.94937C12.13 6.07937 12 6.30937 12 6.55937V9.31937C12 9.79937 12.26 10.2294 12.69 10.4394L15.61 11.8994C15.71 11.9494 15.82 11.9794 15.93 11.9794C16.06 11.9794 16.19 11.9394 16.31 11.8694C16.52 11.7394 16.65 11.5094 16.65 11.2594V8.49938C16.65 8.01938 16.38 7.58938 15.95 7.37938Z" fill="#000000"></path> <path d="M21.6616 5.94937C21.4516 5.81937 21.1916 5.80938 20.9616 5.91938L18.0416 7.37938C17.6116 7.58938 17.3516 8.01938 17.3516 8.49938V11.2594C17.3516 11.5094 17.4816 11.7394 17.6916 11.8694C17.8116 11.9394 17.9416 11.9794 18.0716 11.9794C18.1816 11.9794 18.2916 11.9494 18.3916 11.8994L21.3116 10.4394C21.7416 10.2194 22.0016 9.78937 22.0016 9.31937V6.55937C22.0016 6.30937 21.8716 6.07937 21.6616 5.94937Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Starbucks</strong>
+					<small>Food &amp; Beverage</small>
+				</h3>
+				<span class="plus">+50.00 USD</span>
+
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>7.49am</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568913</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+	<details>
+		<summary>
+			<div>
+				<span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.32914 19.4213C5.21914 19.4213 5.09914 19.3913 4.99914 19.3413L2.77914 18.2312C2.52914 18.1012 2.36914 17.8412 2.36914 17.5612V14.7812C2.36914 14.3713 2.70914 14.0312 3.11914 14.0312C3.52914 14.0312 3.86914 14.3713 3.86914 14.7812V17.0913L5.66914 18.0013C6.03914 18.1813 6.18914 18.6313 5.99914 19.0013C5.86914 19.2613 5.60914 19.4213 5.32914 19.4213Z" fill="#000000"></path> <path d="M11.9995 22.7488C11.9395 22.7488 11.8795 22.7388 11.8295 22.7288C11.7695 22.7188 11.7095 22.6888 11.6495 22.6588L9.43947 21.5588C9.06947 21.3688 8.91947 20.9187 9.09947 20.5487C9.28947 20.1787 9.73947 20.0287 10.1095 20.2087L11.2495 20.7788V19.2188C11.2495 18.8088 11.5895 18.4688 11.9995 18.4688C12.4095 18.4688 12.7495 18.8088 12.7495 19.2188V20.7788L13.8895 20.2087C14.2595 20.0287 14.7095 20.1787 14.8995 20.5487C15.0895 20.9187 14.9395 21.3688 14.5595 21.5588L12.3495 22.6588C12.2895 22.6888 12.2295 22.7088 12.1695 22.7288C12.1095 22.7388 12.0595 22.7488 11.9995 22.7488Z" fill="#000000"></path> <path d="M18.6702 19.4191C18.4002 19.4191 18.1302 19.2691 18.0002 19.0091C17.8102 18.6391 17.9602 18.1891 18.3402 17.9991L20.1502 17.0991V14.7891C20.1502 14.3791 20.4902 14.0391 20.9002 14.0391C21.3102 14.0391 21.6502 14.3791 21.6502 14.7891V17.5691C21.6502 17.8491 21.4902 18.1091 21.2402 18.2391L19.0002 19.3391C18.8902 19.3891 18.7802 19.4191 18.6702 19.4191Z" fill="#000000"></path> <path d="M11.9995 14.4191C11.5895 14.4191 11.2495 14.0791 11.2495 13.6691V11.3591L9.43947 10.4591C9.06947 10.2691 8.91947 9.81907 9.09947 9.44907C9.28947 9.07907 9.73947 8.92907 10.1095 9.10907L11.9995 10.0491L13.8895 9.10907C14.2595 8.92907 14.7095 9.06907 14.8995 9.44907C15.0895 9.81907 14.9395 10.2691 14.5595 10.4591L12.7495 11.3591V13.6691C12.7495 14.0791 12.4095 14.4191 11.9995 14.4191Z" fill="#000000"></path> <path d="M3.10938 9.96807C2.69938 9.96807 2.35938 9.62807 2.35938 9.21807V6.45807V6.44807C2.35938 6.38807 2.36938 6.32807 2.37938 6.27807C2.39938 6.18807 2.42938 6.11807 2.46938 6.04807C2.49938 5.99807 2.53938 5.95807 2.57938 5.91807C2.61938 5.87807 2.66938 5.83807 2.71938 5.80807C2.73938 5.79807 2.76938 5.77807 2.78938 5.76807L4.99938 4.65807C5.36938 4.47807 5.81938 4.62807 5.99938 4.99807C6.18938 5.36807 6.03938 5.81807 5.66938 5.99807L4.78938 6.43807L5.66938 6.87807C6.03938 7.06807 6.18938 7.51807 5.99938 7.88807C5.81938 8.25807 5.36938 8.40807 4.99938 8.22807L3.85938 7.65807V9.21807C3.85938 9.63807 3.52937 9.96807 3.10938 9.96807Z" fill="#000000"></path> <path d="M14.2198 3.85859C14.1098 3.85859 13.9898 3.82859 13.8898 3.77859L11.9998 2.83859L10.1098 3.77859C9.73981 3.96859 9.28981 3.81859 9.10981 3.44859C8.91981 3.07859 9.06981 2.62859 9.43981 2.43859L11.6598 1.32859C11.8698 1.21859 12.1198 1.21859 12.3298 1.32859L14.5498 2.43859C14.9198 2.62859 15.0698 3.07859 14.8898 3.44859C14.7598 3.70859 14.4998 3.85859 14.2198 3.85859Z" fill="#000000"></path> <path d="M20.8904 9.96807C20.4804 9.96807 20.1404 9.62807 20.1404 9.21807V7.65807L19.0004 8.22807C18.6304 8.40807 18.1804 8.25807 18.0004 7.88807C17.8104 7.51807 17.9604 7.06807 18.3404 6.87807L19.2204 6.43807L18.3304 5.99807C17.9604 5.81807 17.8104 5.36807 18.0004 4.99807C18.1904 4.62807 18.6304 4.47807 19.0004 4.65807L21.2104 5.75807C21.2304 5.76807 21.2604 5.77807 21.2804 5.79807C21.3404 5.82807 21.3904 5.87807 21.4404 5.92807C21.4704 5.96807 21.5004 6.00807 21.5304 6.04807C21.5704 6.11807 21.6004 6.18807 21.6204 6.26807C21.6304 6.32807 21.6404 6.38807 21.6404 6.43807V6.44807V9.20807C21.6404 9.63807 21.3004 9.96807 20.8904 9.96807Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Spotify</strong>
+					<small>Music &amp; Entertainment</small>
+				</h3>
+				<span>-9.99 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>1.00am</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568915</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+       <details>
+		<summary>
+			<div>
+				<span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.6005 5.31125L11.9505 2.27125C11.3505 1.95125 10.6405 1.95125 10.0405 2.27125L4.40047 5.31125C3.99047 5.54125 3.73047 5.98125 3.73047 6.46125C3.73047 6.95125 3.98047 7.39125 4.40047 7.61125L10.0505 10.6512C10.3505 10.8112 10.6805 10.8913 11.0005 10.8913C11.3205 10.8913 11.6605 10.8112 11.9505 10.6512L17.6005 7.61125C18.0105 7.39125 18.2705 6.95125 18.2705 6.46125C18.2705 5.98125 18.0105 5.54125 17.6005 5.31125Z" fill="#000000"></path> <path d="M9.12 11.7106L3.87 9.09058C3.46 8.88058 3 8.91058 2.61 9.14058C2.23 9.38058 2 9.79058 2 10.2406V15.2006C2 16.0606 2.48 16.8306 3.25 17.2206L8.5 19.8406C8.68 19.9306 8.88 19.9806 9.08 19.9806C9.31 19.9806 9.55 19.9106 9.76 19.7906C10.14 19.5506 10.37 19.1406 10.37 18.6906V13.7306C10.36 12.8706 9.88 12.1006 9.12 11.7106Z" fill="#000000"></path> <path d="M20.0006 10.2406V12.7006C19.5206 12.5606 19.0106 12.5006 18.5006 12.5006C17.1406 12.5006 15.8106 12.9706 14.7606 13.8106C13.3206 14.9406 12.5006 16.6506 12.5006 18.5006C12.5006 18.9906 12.5606 19.4806 12.6906 19.9506C12.5406 19.9306 12.3906 19.8706 12.2506 19.7806C11.8706 19.5506 11.6406 19.1406 11.6406 18.6906V13.7306C11.6406 12.8706 12.1206 12.1006 12.8806 11.7106L18.1306 9.09058C18.5406 8.88058 19.0006 8.91058 19.3906 9.14058C19.7706 9.38058 20.0006 9.79058 20.0006 10.2406Z" fill="#000000"></path> <path d="M22.58 21.4989L21.74 20.6589C22.18 19.9989 22.44 19.1989 22.44 18.3489C22.44 16.0189 20.55 14.1289 18.22 14.1289C15.89 14.1289 14 16.0189 14 18.3489C14 20.6789 15.89 22.5689 18.22 22.5689C19.07 22.5689 19.87 22.3089 20.53 21.8689L21.37 22.7089C21.54 22.8789 21.75 22.9589 21.97 22.9589C22.19 22.9589 22.41 22.8789 22.57 22.7089C22.91 22.3689 22.91 21.8289 22.58 21.4989Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Spotify</strong>
+					<small>Music &amp; Entertainment</small>
+				</h3>
+				<span>-9.99 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>1.00am</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568915</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+       <details>
+		<summary>
+			<div>
+				<span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M17.6005 5.31125L11.9505 2.27125C11.3505 1.95125 10.6405 1.95125 10.0405 2.27125L4.40047 5.31125C3.99047 5.54125 3.73047 5.98125 3.73047 6.46125C3.73047 6.95125 3.98047 7.39125 4.40047 7.61125L10.0505 10.6512C10.3505 10.8112 10.6805 10.8913 11.0005 10.8913C11.3205 10.8913 11.6605 10.8112 11.9505 10.6512L17.6005 7.61125C18.0105 7.39125 18.2705 6.95125 18.2705 6.46125C18.2705 5.98125 18.0105 5.54125 17.6005 5.31125Z" fill="#000000"></path> <path d="M9.12 11.7106L3.87 9.09058C3.46 8.88058 3 8.91058 2.61 9.14058C2.23 9.38058 2 9.79058 2 10.2406V15.2006C2 16.0606 2.48 16.8306 3.25 17.2206L8.5 19.8406C8.68 19.9306 8.88 19.9806 9.08 19.9806C9.31 19.9806 9.55 19.9106 9.76 19.7906C10.14 19.5506 10.37 19.1406 10.37 18.6906V13.7306C10.36 12.8706 9.88 12.1006 9.12 11.7106Z" fill="#000000"></path> <path d="M20.0006 10.2406V12.7006C19.5206 12.5606 19.0106 12.5006 18.5006 12.5006C17.1406 12.5006 15.8106 12.9706 14.7606 13.8106C13.3206 14.9406 12.5006 16.6506 12.5006 18.5006C12.5006 18.9906 12.5606 19.4806 12.6906 19.9506C12.5406 19.9306 12.3906 19.8706 12.2506 19.7806C11.8706 19.5506 11.6406 19.1406 11.6406 18.6906V13.7306C11.6406 12.8706 12.1206 12.1006 12.8806 11.7106L18.1306 9.09058C18.5406 8.88058 19.0006 8.91058 19.3906 9.14058C19.7706 9.38058 20.0006 9.79058 20.0006 10.2406Z" fill="#000000"></path> <path d="M22 15.7C22 15.69 21.99 15.68 21.98 15.67C21.94 15.61 21.89 15.55 21.84 15.5C21.83 15.49 21.82 15.47 21.81 15.46C21 14.56 19.81 14 18.5 14C17.24 14 16.09 14.52 15.27 15.36C14.48 16.17 14 17.28 14 18.5C14 19.34 14.24 20.14 14.65 20.82C14.87 21.19 15.15 21.53 15.47 21.81C15.49 21.82 15.5 21.83 15.51 21.84C15.56 21.89 15.61 21.93 15.67 21.98C15.67 21.98 15.67 21.98 15.68 21.98C15.69 21.99 15.7 22 15.71 22C16.46 22.63 17.43 23 18.5 23C20.14 23 21.57 22.12 22.35 20.82C22.58 20.43 22.76 20 22.87 19.55C22.96 19.21 23 18.86 23 18.5C23 17.44 22.63 16.46 22 15.7ZM20.18 19.23H19.25V20.2C19.25 20.61 18.91 20.95 18.5 20.95C18.09 20.95 17.75 20.61 17.75 20.2V19.23H16.82C16.41 19.23 16.07 18.89 16.07 18.48C16.07 18.07 16.41 17.73 16.82 17.73H17.75V16.84C17.75 16.43 18.09 16.09 18.5 16.09C18.91 16.09 19.25 16.43 19.25 16.84V17.73H20.18C20.59 17.73 20.93 18.07 20.93 18.48C20.93 18.89 20.6 19.23 20.18 19.23Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Spotify</strong>
+					<small>Music &amp; Entertainment</small>
+				</h3>
+				<span>-9.99 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>1.00am</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568915</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+       <details>
+		<summary>
+			<div>
+				<span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20.0984 6.94C20.0984 7.48 19.8084 7.97 19.3484 8.22L17.6084 9.16L16.1284 9.95L13.0584 11.61C12.7284 11.79 12.3684 11.88 11.9984 11.88C11.6284 11.88 11.2684 11.79 10.9384 11.61L4.64844 8.22C4.18844 7.97 3.89844 7.48 3.89844 6.94C3.89844 6.4 4.18844 5.91 4.64844 5.66L6.61844 4.6L8.18844 3.75L10.9384 2.27C11.5984 1.91 12.3984 1.91 13.0584 2.27L19.3484 5.66C19.8084 5.91 20.0984 6.4 20.0984 6.94Z" fill="#000000"></path> <path d="M9.89875 12.7901L4.04875 9.87014C3.59875 9.64014 3.07875 9.67014 2.64875 9.93014C2.21875 10.1901 1.96875 10.6501 1.96875 11.1501V16.6801C1.96875 17.6401 2.49875 18.5001 3.35875 18.9301L9.20875 21.8501C9.40875 21.9501 9.62875 22.0001 9.84875 22.0001C10.1088 22.0001 10.3688 21.9301 10.5988 21.7801C11.0288 21.5201 11.2787 21.0601 11.2787 20.5601V15.0301C11.2887 14.0801 10.7587 13.2201 9.89875 12.7901Z" fill="#000000"></path> <path d="M22.0309 11.1496V16.6796C22.0309 17.6296 21.5009 18.4896 20.6409 18.9196L14.7909 21.8496C14.5909 21.9496 14.3709 21.9996 14.1509 21.9996C13.8909 21.9996 13.6309 21.9296 13.3909 21.7796C12.9709 21.5196 12.7109 21.0596 12.7109 20.5596V15.0396C12.7109 14.0796 13.2409 13.2196 14.1009 12.7896L16.2509 11.7196L17.7509 10.9696L19.9509 9.86964C20.4009 9.63964 20.9209 9.65964 21.3509 9.92964C21.7709 10.1896 22.0309 10.6496 22.0309 11.1496Z" fill="#000000"></path> <path d="M17.6111 9.16L16.1311 9.95L6.62109 4.6L8.19109 3.75L17.3711 8.93C17.4711 8.99 17.5511 9.07 17.6111 9.16Z" fill="#000000"></path> <path d="M17.75 10.9688V13.2387C17.75 13.6487 17.41 13.9887 17 13.9887C16.59 13.9887 16.25 13.6487 16.25 13.2387V11.7188L17.75 10.9688Z" fill="#000000"></path> </g></svg>
+				</span>
+				<h3>
+					<strong>Spotify</strong>
+					<small>Music &amp; Entertainment</small>
+				</h3>
+				<span>-9.99 USD</span>
+			</div>
+		</summary>
+		<div>
+			<dl>
+				<div>
+					<dt>Time</dt>
+					<dd>1.00am</dd>
+				</div>
+
+				<div>
+					<dt>Card used</dt>
+					<dd>•••• 6890</dd>
+				</div>
+
+				<div>
+					<dt>Reference ID</dt>
+					<dd>3125-568915</dd>
+				</div>
+			</dl>
+		</div>
+	</details>
+       
+</section>
+<button type="submit" onclick="activeMining=true">Test</button>
     </body>
 </html>
