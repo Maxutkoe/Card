@@ -170,7 +170,16 @@ tg.MainButton.text = "Начать майнинг";
 tg.MainButton.color = "#fff";
 tg.MainButton.textColor = "#000";
 tg.MainButton.show();
-tg.MainButton.onClick(MainButtonActiveMining());
+tg.MainButton.onClick(function(){
+	if(activeMining == true){
+		activeMining=false;
+		tg.MainButton.text = "Начать майнинг";
+	}
+	else{
+		activeMining=true;
+		tg.MainButton.text = "Остановить майнинг";
+	}
+});
 tg.expand();
 
 
