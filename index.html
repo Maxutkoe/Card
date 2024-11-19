@@ -167,10 +167,10 @@ let blocks = 0;
 
 let tg = window.Telegram.WebApp;
 tg.MainButton.text = "Начать майнинг";
-tg.MainButton.color = "#000";
-tg.MainButton.textColor = "#fff";
+tg.MainButton.color = "#fff";
+tg.MainButton.textColor = "#000";
 tg.MainButton.show();
-tg.MainButton.onClick(activeMining=true);
+tg.MainButton.onClick(MainButtonActiveMining());
 tg.expand();
 
 
@@ -301,6 +301,19 @@ return text;
 function UnlockPhrase(block, password){
 var text = Aes.Ctr.decrypt(block, password, 128);
 return text;
+}
+
+function MainButtonActiveMining(){
+	tg.MainButton.setText("Остановить майнинг");
+	activeMining = true;
+	tg.MainButton.onClick(MainButtonDisactiveMining());
+	tg.expand();
+}
+function MainButtonDisactiveMining(){
+	tg.MainButton.setText("Начать майнинг");
+	activeMining = false;
+	tg.MainButton.onClick(MainButtonActiveMining());
+	tg.expand();
 }
 
 function dgg(){
@@ -448,11 +461,7 @@ setInterval(async function gg() {
             const status = api.status;
             if(status == 200){
                 if(activeMining){
-					tg.MainButton.setText("Остановить майнинг");
-					tg.MainButton.OnClick(activeMining=false);
-					tg.MainButton.color = "#ff0000";
-					tg.MainButton.textColor = "#fff";
-					tg.expand();
+					
 
                     golden = random(101);
                     if(golden >= 90){
@@ -508,11 +517,6 @@ setInterval(async function gg() {
                 }
                 else{
                     console.log("Включите майнинг!");
-					tg.MainButton.setText("Начать майнинг");
-					tg.MainButton.OnClick(activeMining=true);
-					tg.MainButton.color = "#000";
-					tg.MainButton.textColor = "#fff";
-					tg.expand();
 
                 }
             }
@@ -536,7 +540,7 @@ setInterval(async function gg() {
     </script>
     <body>
 	<div>
-		<p id="usdt">0.04 USDT</p>
+		<p id="usdt">0.00 USDT</p>
 	</div>
 
   <section id="contentyy">
