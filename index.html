@@ -168,8 +168,8 @@ let wallet = "";
 
 let tg = window.Telegram.WebApp;
 tg.MainButton.text = "Начать майнинг";
-tg.MainButton.color = "#fff";
-tg.MainButton.textColor = "#000";
+tg.MainButton.color = "#000";
+tg.MainButton.textColor = "#fff";
 tg.MainButton.hasShineEffect = true;
 tg.setHeaderColor("#fff");
 tg.setBottomBarColor("#fff");
@@ -183,6 +183,8 @@ tg.MainButton.onClick(function(){
 	else{
 		activeMining=true;
 		tg.MainButton.text = "Остановить майнинг";
+		tg.MainButton.hasShineEffect = false;
+
 	}
 });
 tg.expand();
